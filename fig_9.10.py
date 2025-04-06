@@ -67,63 +67,6 @@ for length in sorted(map(int,os.listdir(data_dir))):
                 data["alpha"] += [alpha]
                 data["length"] += [str(length)]
 
-                # print(sm)
-
-                # avg_inferred = 0
-                # avg_dice_max = 0
-                # avg_w_dice = 0
-                # max_inferred = None
-                # cnt = 0
-
-                # empirical = []
-                # pred_inferred = []
-                # truths = []
-
-                # for i, state in enumerate(states): 
-
-                #     distogram = fetch_distogram(state2struct(state, fmt, length))
-
-                #     if np.sum(distogram < 1/4): continue
-                    
-                #     infered_pi_c = np.array([
-                #         1 if d <= 1.5 else (1.5 / d)**3
-                #         for d in distogram
-                #     ])
-
-                #     cnt += counts[i]
-                #     infer = np.mean(infered_pi_c[pos_msk])
-                #     avg_inferred += counts[i] * infer
-
-                #     if max_inferred is None: max_inferred = infer
-                #     elif infer > max_inferred: max_inferred = infer
-
-                #     dice_max = None
-                #     for t_i in np.unique(infered_pi_c): 
-                #         pi_c_thresh = infered_pi_c > t_i
-                #         intersect_i = np.sum(pi_c_thresh[pos_msk])
-                #         dice_i = 2*intersect_i/(n_c + np.sum(pi_c_thresh))
-
-                #         if dice_max is None or dice_i > dice_max[1]: dice_max = [t_i, dice_i]
-
-                #     avg_dice_max += counts[i]*dice_max[1]
-                #     avg_w_dice += counts[i]*2*np.sum(infered_pi_c[pos_msk]) / (n_c + np.sum(infered_pi_c))
-
-                #     empirical += [counts[i], counts[i]]
-                #     pred_inferred += [infer, np.mean(infered_pi_c[~pos_msk])]
-                #     truths += [1, 0]
-            
-                ##################
-
-                # data["avg_inferred"] += [avg_inferred / cnt]
-                # data["max_inferred"] += [max_inferred]
-                # data["avg_w_dice"] += [avg_w_dice / cnt]
-                # data["avg_dice_max"] += [avg_dice_max / cnt]
-                # data["inferred_auc"] += [max([0.5, metrics.roc_auc_score(truths, pred_inferred, sample_weight = empirical)])]
-                # data["inferred_ap"] += [metrics.average_precision_score(truths, pred_inferred, sample_weight = empirical)]
-                # data["group"] += [group]
-                # data["alpha"] += [alpha]
-                # data["length"] += [str(length)]
-
                 ##################
 
 data = pd.DataFrame(data)
