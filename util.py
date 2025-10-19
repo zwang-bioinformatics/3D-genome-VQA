@@ -140,3 +140,19 @@ def p_x_ref(r, x2, pi_c, m_x, epsilon = 0.0001):
         assert False, "NOT IMPLEMENTED!"
 
 ###################################
+
+def spatial_distance_rmsd(distogram, matrix, unit, p, scale_factor = None): 
+
+    if not scale_factor: 
+        scale_factor = (np.dot((matrix / unit)**(-p), distogram)) / np.sum(np.square(distogram))
+
+    rmsd = sum(
+        np.square(scale_factor*distogram[idx] - (matrix[idx] / unit)**(-p)) 
+        for idx in range(matrix.shape[0])
+    )
+
+    rmsd = (rmsd / matrix.shape[0]) ** (0.5)
+    
+    return rmsd, scale_factor
+
+###################################
