@@ -156,3 +156,35 @@ def spatial_distance_rmsd(distogram, matrix, unit, p, scale_factor = None):
     return rmsd, scale_factor
 
 ###################################
+
+def paired_bounds(n_beads, junctions, bead_id, inter_radius = np.sqrt(3), inter_freedom = 1):
+    assert len(junctions) == 2
+
+    org = np.array([
+        [0, 0, 0],
+        [inter_radius + (2**inter_freedom - 1)/np.sqrt(3) - 1/4, 0, 0]
+    ])
+
+    bounds = np.zeros((n_beads, n_beads))
+    for i in range(n_beads):
+        polymer_i, bin_i = bead_id[i]
+        
+        for j in range(i + 1, n_beads): 
+            polymer_j, bin_j = bead_id[j]
+
+            if polymer_i == polymer_j: bounds[i,j] = abs(bin_i - bin_j)
+            else: 
+                assert polymer_i == 0 and polymer_j == 1
+                
+                mult = np.array([1,1,1])/np.sqrt(3)
+                imax = org[polymer_i] - abs(bin_i - junctions[polymer_i])*mult
+                jmax = org[polymer_j] + abs(bin_j - junctions[polymer_j])*mult
+                bounds[i,j] = np.sqrt(np.sum(np.square(imax - jmax))).round(8)
+
+            bounds[j,i] = bounds[i,j]
+    
+    return bounds.round(8)
+
+###################################
+
+
